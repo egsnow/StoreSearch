@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_0" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -9,13 +13,43 @@
         <!--Search View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="SearchViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="SearchViewController" customModule="StoreSearch" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="interactive" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="A4z-5f-YVu">
+                                <rect key="frame" x="0.0" y="20" width="320" height="548"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="Zar-07-Q7h"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="qMx-c5-tyh"/>
+                                </connections>
+                            </tableView>
+                            <searchBar contentMode="redraw" placeholder="App name, artist, song, album, e-book." translatesAutoresizingMaskIntoConstraints="NO" id="Auh-UM-Zmt">
+                                <rect key="frame" x="0.0" y="20" width="320" height="56"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="V32-5Y-bV5"/>
+                                </connections>
+                            </searchBar>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="A4z-5f-YVu" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="2mY-2b-tD0"/>
+                            <constraint firstItem="Auh-UM-Zmt" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="JB5-sx-gx7"/>
+                            <constraint firstItem="Auh-UM-Zmt" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="VPd-gG-dAy"/>
+                            <constraint firstItem="A4z-5f-YVu" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="b2h-QU-1mg"/>
+                            <constraint firstItem="A4z-5f-YVu" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="lLS-8b-NNT"/>
+                            <constraint firstItem="Auh-UM-Zmt" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="qUe-jk-CNt"/>
+                            <constraint firstItem="A4z-5f-YVu" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="xCF-Ox-JfQ"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <connections>
+                        <outlet property="searchBar" destination="Auh-UM-Zmt" id="frf-Nh-FfT"/>
+                        <outlet property="tableView" destination="A4z-5f-YVu" id="l23-Z0-EOb"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
