@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0FE3D1E722BEDCF60026009A /* LoadingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FE3D1E622BEDCF60026009A /* LoadingCell.xib */; };
 		0FF7553A22AC757400CDDD97 /* SearchResultCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FF7553922AC757400CDDD97 /* SearchResultCell.xib */; };
 		0FF7553C22AC7B4700CDDD97 /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF7553B22AC7B4700CDDD97 /* SearchResultCell.swift */; };
 		0FF7553E22AC7E6600CDDD97 /* NothingFoundCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FF7553D22AC7E6600CDDD97 /* NothingFoundCell.xib */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0FE3D1E622BEDCF60026009A /* LoadingCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadingCell.xib; sourceTree = "<group>"; };
 		0FF7553922AC757400CDDD97 /* SearchResultCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchResultCell.xib; sourceTree = "<group>"; };
 		0FF7553B22AC7B4700CDDD97 /* SearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCell.swift; sourceTree = "<group>"; };
 		0FF7553D22AC7E6600CDDD97 /* NothingFoundCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NothingFoundCell.xib; sourceTree = "<group>"; };
@@ -64,6 +66,7 @@
 			children = (
 				0FFAEF0A22A335FE00E83DA2 /* AppDelegate.swift */,
 				0FFAEF0C22A335FE00E83DA2 /* SearchViewController.swift */,
+				0FE3D1E622BEDCF60026009A /* LoadingCell.xib */,
 				0FF7553D22AC7E6600CDDD97 /* NothingFoundCell.xib */,
 				0FF7553B22AC7B4700CDDD97 /* SearchResultCell.swift */,
 				0FF7553922AC757400CDDD97 /* SearchResultCell.xib */,
@@ -136,6 +139,7 @@
 			files = (
 				0FFAEF1522A335FF00E83DA2 /* LaunchScreen.storyboard in Resources */,
 				0FFAEF1222A335FF00E83DA2 /* Assets.xcassets in Resources */,
+				0FE3D1E722BEDCF60026009A /* LoadingCell.xib in Resources */,
 				0FF7553A22AC757400CDDD97 /* SearchResultCell.xib in Resources */,
 				0FF7553E22AC7E6600CDDD97 /* NothingFoundCell.xib in Resources */,
 				0FFAEF1022A335FE00E83DA2 /* Main.storyboard in Resources */,
