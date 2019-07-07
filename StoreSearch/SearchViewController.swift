@@ -14,7 +14,6 @@ class SearchViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     
-    
     var searchResults = [SearchResult]()
     var hasSearched = false
     var isLoading = false
@@ -40,15 +39,21 @@ class SearchViewController: UIViewController {
         tableView.register(cellNib, forCellReuseIdentifier: TableView.CellIdentifiers.loadingCell)
     }
     
+    // MARK:- Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ShowDetail" {
+            let detailViewController = segue.destination as! DetailViewController
+            let indexPath = sender as! IndexPath
+            let searchResult = searchResults[indexPath.row]
+            detailViewController.searchResult = searchResult
+        }
+    }
 }
 
 extension SearchViewController: UISearchBarDelegate {
-
-    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         performSearch()
     }
-    
     
     func performSearch() {
         if !searchBar.text!.isEmpty {
@@ -88,14 +93,12 @@ extension SearchViewController: UISearchBarDelegate {
         }
     }
 
-    
     func position(for bar: UIBarPositioning) -> UIBarPosition {
         return .topAttached
     }
 }
 
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isLoading {
             return 1
@@ -112,8 +115,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         if isLoading {
             let cell = tableView.dequeueReusableCell(withIdentifier:
                 TableView.CellIdentifiers.loadingCell, for: indexPath)
-            let spinner = cell.viewWithTag(100) as!
-            UIActivityIndicatorView
+            let spinner = cell.viewWithTag(100) as! UIActivityIndicatorView
             spinner.startAnimating()
             return cell
         } else if searchResults.count == 0 {
@@ -128,11 +130,12 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        performSegue(withIdentifier: "ShowDetail", sender: indexPath)
     }
     
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-if searchResults.count == 0 || isLoading {
-    return nil
+        if searchResults.count == 0 || isLoading {
+            return nil
         } else {
             return indexPath
         }
@@ -152,8 +155,6 @@ if searchResults.count == 0 || isLoading {
         let url = URL(string: urlString)
         return url!
     }
-    
-    
     
     func parse(data: Data) -> [SearchResult] {
         do {
@@ -176,8 +177,5 @@ if searchResults.count == 0 || isLoading {
         performSearch()
         
     }
-    
-    
 
-    
 }
