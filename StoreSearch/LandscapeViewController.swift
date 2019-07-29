@@ -9,36 +9,9 @@
 import UIKit
 
 class LandscapeViewController: UIViewController {
-
+    
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var pageControl: UIPageControl!
-    
-    var searchResults = [SearchResult]()
-    private var firstTime = true
-    private var downloads = [URLSessionDownloadTask]()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.removeConstraints(view.constraints)
-        view.translatesAutoresizingMaskIntoConstraints = true
-        pageControl.removeConstraints(pageControl.constraints)
-        pageControl.translatesAutoresizingMaskIntoConstraints = true
-        scrollView.removeConstraints(scrollView.constraints)
-        scrollView.translatesAutoresizingMaskIntoConstraints = true
-        view.backgroundColor = UIColor(patternImage: UIImage(named: "LandscapeBackground")!)
-        pageControl.numberOfPages = 0
-    }
-
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        let safeFrame = view.safeAreaLayoutGuide.layoutFrame
-        scrollView.frame = safeFrame
-        pageControl.frame = CGRect(x: safeFrame.origin.x, y: safeFrame.size.height - pageControl.frame.size.height, width: safeFrame.size.width, height: pageControl.frame.size.height)
-        if firstTime {
-            firstTime = false
-            tileButtons(searchResults)
-        }
-    }
     
     deinit {
         print("deinit \(self)")
@@ -47,14 +20,18 @@ class LandscapeViewController: UIViewController {
         }
     }
     
-    @IBAction func pageChanged(_ sender: UIPageControl) {
-        UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseInOut], animations: {
-                        self.scrollView.contentOffset = CGPoint(x: self.scrollView.bounds.size.width * CGFloat(sender.currentPage), y: 0)
-        },
-                       completion: nil)
+    var search: Search!
+    private var firstTime = true
+    private var downloads = [URLSessionDownloadTask]()
+    
+    private func showSpinner() {
+        let spinner = UIActivityIndicatorView(style: .whiteLarge)
+        spinner.center = CGPoint(x: scrollView.bounds.midX + 0.5, y: scrollView.bounds.midY + 0.5)
+        spinner.tag = 1000
+        view.addSubview(spinner)
+        spinner.startAnimating()
     }
     
-    // MARK:- Private Methods
     private func tileButtons(_ searchResults: [SearchResult]) {
         var columnsPerPage = 6
         var rowsPerPage = 3
@@ -116,35 +93,92 @@ class LandscapeViewController: UIViewController {
         pageControl.currentPage = 0
         print("Number of pages: \(numPages)")
     }
-
-
     
-    private func downloadImage(for searchResult: SearchResult, andPlaceOn button: UIButton) {
-        if let url = URL(string: searchResult.imageSmall) {
-            let task = URLSession.shared.downloadTask(with: url) {
-                [weak button] url, response, error in
-                if error == nil, let url = url,
-                    let data = try? Data(contentsOf: url),
-                    let image = UIImage(data: data) {
-                    DispatchQueue.main.async {
-                        if let button = button {
-                            button.setImage(image, for: .normal)
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.removeConstraints(view.constraints)
+        view.translatesAutoresizingMaskIntoConstraints = true
+        pageControl.removeConstraints(pageControl.constraints)
+        pageControl.translatesAutoresizingMaskIntoConstraints = true
+        scrollView.removeConstraints(scrollView.constraints)
+        scrollView.translatesAutoresizingMaskIntoConstraints = true
+        view.backgroundColor = UIColor(patternImage: UIImage(named: "LandscapeBackground")!)
+        pageControl.numberOfPages = 0
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        let safeFrame = view.safeAreaLayoutGuide.layoutFrame
+        scrollView.frame = safeFrame
+        pageControl.frame = CGRect(x: safeFrame.origin.x, y: safeFrame.size.height - pageControl.frame.size.height, width: safeFrame.size.width, height: pageControl.frame.size.height)
+        if firstTime {
+            firstTime = false
+            switch search.state {
+            case .notSearchedYet:
+                break
+            case .loading:
+                showSpinner()
+            case .noResults:
+                break
+            case .results(let list):
+                tileButtons(list)
+            }
+        }
+        
+        private func hideSpinner() {
+            view.viewWithTag(1000)?.removeFromSuperview()
+        }
+        
+        func searchResultsReceived() {
+            hideSpinner()
+            switch search.state {
+            case .notSearchedYet, .loading, .noResults:
+                break
+            case .results(let list):
+                tileButtons(list)
+            }
+        }
+        
+
+        
+        @IBAction func pageChanged(_ sender: UIPageControl) {
+            UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseInOut], animations: {
+                self.scrollView.contentOffset = CGPoint(x: self.scrollView.bounds.size.width * CGFloat(sender.currentPage), y: 0)
+            },
+                           completion: nil)
+        }
+        
+        // MARK:- Private Methods
+        
+        
+        
+        private func downloadImage(for searchResult: SearchResult, andPlaceOn button: UIButton) {
+            if let url = URL(string: searchResult.imageSmall) {
+                let task = URLSession.shared.downloadTask(with: url) {
+                    [weak button] url, response, error in
+                    if error == nil, let url = url,
+                        let data = try? Data(contentsOf: url),
+                        let image = UIImage(data: data) {
+                        DispatchQueue.main.async {
+                            if let button = button {
+                                button.setImage(image, for: .normal)
+                            }
                         }
                     }
                 }
+                task.resume()
+                downloads.append(task)
             }
-            task.resume()
-            downloads.append(task)
         }
     }
-}
-
-extension LandscapeViewController: UIScrollViewDelegate {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let width = scrollView.bounds.size.width
-        let page = Int((scrollView.contentOffset.x + width / 2) / width)
-        pageControl.currentPage = page
-    }
     
-    
+    extension LandscapeViewController: UIScrollViewDelegate {
+        func scrollViewDidScroll(_ scrollView: UIScrollView) {
+            let width = scrollView.bounds.size.width
+            let page = Int((scrollView.contentOffset.x + width / 2) / width)
+            pageControl.currentPage = page
+        }
+        
+        
 }
