@@ -1,0 +1,29 @@
+/* 
+  Localizable.strings
+  StoreSearch
+
+  Created by Eric Snow on 8/5/19.
+  Copyright © 2019 Eric Snow. All rights reserved.
+*/
+
+
+/* Localized kind: Album */
+"Album" = "Album";
+/* Localized kind: Software */
+"App" = "App";
+/* Localized kind: Audio Book */
+"Audio Book" = "Audio Book";
+/* Localized kind: Book */
+"Book" = "Book";
+/* Localized kind: E-Book */
+"E-Book" = "E-Book";
+/* Localized kind: Feature Movie */
+"Movie" = "Movie";
+/* Localized kind: Music Video */
+"Music Video" = "Music Video";
+/* Localized kind: Podcast */
+"Podcast" = "Podcast";
+/* Localized kind: Song */
+"Song" = "SUPER HIT!";
+/* Localized kind: TV Episode */
+"TV Episode" = "TV Episode";

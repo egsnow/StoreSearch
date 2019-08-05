@@ -13,7 +13,7 @@ class ResultArray: Codable {
     var results = [SearchResult]()
 }
 
-  class SearchResult: Codable, CustomStringConvertible {
+class SearchResult: Codable, CustomStringConvertible {
     var artistName: String? = ""
     var trackName: String? = ""
     var kind: String? = ""
@@ -51,35 +51,49 @@ class ResultArray: Codable {
         }
         return ""
     }
-    var type: String {
+    var type:String {
         let kind = self.kind ?? "audiobook"
         switch kind {
         case "album":
-            return "Album"
+            return NSLocalizedString("Album", comment: "Localized kind: Album")
         case "audiobook":
-            return "Audio Book"
+            return NSLocalizedString("Audio Book", comment: "Localized kind: Audio Book")
         case "book":
-            return "Book"
+            return NSLocalizedString("Book", comment: "Localized kind: Book")
         case "ebook":
-            return "E-Book"
+            return NSLocalizedString("E-Book", comment: "Localized kind: E-Book")
         case "feature-movie":
-            return "Movie"
+            return NSLocalizedString("Movie", comment: "Localized kind: Feature Movie")
         case "music-video":
-            return "Music Video"
+            return NSLocalizedString("Music Video", comment: "Localized kind: Music Video")
         case "podcast":
-            return "Podcast"
+            return NSLocalizedString("Podcast", comment: "Localized kind: Podcast")
         case "software":
-            return "App"
+            return NSLocalizedString("App", comment: "Localized kind: Software")
         case "song":
-            return "Song"
+            return NSLocalizedString("Song", comment: "Localized kind: Song")
         case "tv-episode":
-            return "TV Episode"
+            return NSLocalizedString("TV Episode", comment: "Localized kind: TV Episode")
         default:
-            break
+            return kind
         }
-        return "Unknown"
     }
     
+    private let typeForKind = [
+        "album": NSLocalizedString("Album", comment: "Localized kind: Album"),
+        "audiobook": NSLocalizedString("Audio Book", comment: "Localized kind: Audio Book"),
+        "book": NSLocalizedString("Book", comment: "Localized kind: Book"),
+        "ebook": NSLocalizedString("E-Book", comment: "Localized kind: E-Book"),
+        "feature-movie": NSLocalizedString("Movie", comment: "Localized kind: Feature Movie"),
+        "music-video": NSLocalizedString("Music Video", comment: "Localized kind: Music Video"),
+        "podcast": NSLocalizedString("Podcast", comment: "Localized kind: Podcast"),
+        "software": NSLocalizedString("App", comment: "Localized kind: Software"),
+        "song": NSLocalizedString("Song", comment: "Localized kind: Song"),
+        "tv-episode": NSLocalizedString("TV Episode", comment: "Localized kind: TV Episode"),
+    ]
+
+        
+        
     enum CodingKeys: String, CodingKey {
         case imageSmall = "artworkUrl60"
         case imageLarge = "artworkUrl100"

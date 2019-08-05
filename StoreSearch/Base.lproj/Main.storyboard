@@ -38,7 +38,7 @@
                                 <items>
                                     <navigationItem id="Uvb-Xc-ICC">
                                         <nil key="title"/>
-                                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="AX3-dt-gNo">
+                                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="AX3-dt-gNo">
                                             <rect key="frame" x="132" y="1" width="304" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <segments>
@@ -79,6 +79,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="208" y="-302"/>
         </scene>
         <!--Detail-->
         <scene sceneID="q1g-Ml-AmN">
@@ -201,7 +202,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pxv-Ek-Iko" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1091" y="130"/>
+            <point key="canvasLocation" x="941" y="41"/>
         </scene>
         <!--Landscape-->
         <scene sceneID="vE9-8A-3xx">
@@ -239,15 +240,19 @@
                     <connections>
                         <outlet property="pageControl" destination="khn-zK-wqg" id="hDP-dG-fdB"/>
                         <outlet property="scrollView" destination="OLo-Lx-Afw" id="zb7-cj-02A"/>
+                        <segue destination="T64-eP-M6x" kind="presentation" identifier="ShowDetail" id="BQp-R6-wvj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wBA-fU-mqz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2020.7746478873239" y="129.375"/>
+            <point key="canvasLocation" x="208" y="452"/>
         </scene>
     </scenes>
     <resources>
         <image name="CloseButton" width="15" height="15"/>
         <image name="PriceButton" width="11" height="24"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="BQp-R6-wvj"/>
+    </inferredMetricsTieBreakers>
 </document>

@@ -55,6 +55,8 @@ class LandscapeViewController: UIViewController {
             button.setBackgroundImage(UIImage(named: "LandscapeButton"), for: .normal)
             button.setTitle("\(index)", for: .normal)
             button.frame = CGRect(x: x + paddingHorz, y: marginY + CGFloat(row)*itemHeight + paddingVert, width: buttonWidth, height: buttonHeight)
+            button.tag = 2000 + index
+            button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
             scrollView.addSubview(button)
             downloadImage(for: result, andPlaceOn: button)
             row += 1
@@ -94,6 +96,15 @@ class LandscapeViewController: UIViewController {
         print("Number of pages: \(numPages)")
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ShowDetail" {
+            if case .results(let list) = search.state {
+                let detailViewController = segue.destination as! DetailViewController
+                let searchResult = list[(sender as! UIButton).tag - 2000]
+                detailViewController.searchResult = searchResult
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -120,7 +131,7 @@ class LandscapeViewController: UIViewController {
             case .loading:
                 showSpinner()
             case .noResults:
-                break
+                showNothingFoundLabel()
             case .results(let list):
                 tileButtons(list)
             }
@@ -140,7 +151,19 @@ class LandscapeViewController: UIViewController {
             }
         }
         
-
+        private func showNothingFoundLabel() {
+            let label = UILabel(frame: CGRect.zero)
+            label.text = "Nothing Found"
+            label.textColor = UIColor.white
+            label.backgroundColor = UIColor.clear
+            label.sizeToFit()
+            var rect = label.frame
+            rect.size.width = ceil(rect.size.width/2) * 2
+            rect.size.height = ceil(rect.size.height/2) * 2  // make even
+            label.frame = rect
+            label.center = CGPoint(x: scrollView.bounds.midX, y: scrollView.bounds.midY)
+                                   view.addSubview(label)
+        }
         
         @IBAction func pageChanged(_ sender: UIPageControl) {
             UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseInOut], animations: {
@@ -149,10 +172,7 @@ class LandscapeViewController: UIViewController {
                            completion: nil)
         }
         
-        // MARK:- Private Methods
-        
-        
-        
+
         private func downloadImage(for searchResult: SearchResult, andPlaceOn button: UIButton) {
             if let url = URL(string: searchResult.imageSmall) {
                 let task = URLSession.shared.downloadTask(with: url) {
@@ -172,13 +192,12 @@ class LandscapeViewController: UIViewController {
             }
         }
     }
+}
     
-    extension LandscapeViewController: UIScrollViewDelegate {
-        func scrollViewDidScroll(_ scrollView: UIScrollView) {
-            let width = scrollView.bounds.size.width
-            let page = Int((scrollView.contentOffset.x + width / 2) / width)
-            pageControl.currentPage = page
-        }
-        
-        
+extension LandscapeViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let width = scrollView.bounds.size.width
+        let page = Int((scrollView.contentOffset.x + width / 2) / width)
+        pageControl.currentPage = page
+    }
 }
